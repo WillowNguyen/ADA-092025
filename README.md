@@ -33,9 +33,8 @@
 
 **Revenue identity**
 
-\[
-\text{Revenue} = \text{Sessions} \times \text{Conversion Rate (CVR)} \times \text{Average Order Value (AOV)}
-\]
+Revenue = Sessions × Conversion Rate (CVR) × Average Order Value (AOV)
+
 
 **What we built**
 - A **clean 30-day baseline** on **Completed** revenue, **excluding** the super-event outlier in July.  
