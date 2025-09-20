@@ -1,1 +1,231 @@
-# ADA-092025
+# Doubling to 20B VND — E-commerce Growth Plan  
+**Plan B: 3 Super-Events + ROI-Gated Traffic Allocation (STRICT v3b)**
+
+> **Objective:** Seller A achieved ~10B VND **gross** in July. **August KPI = 20B VND**.  
+> **Deliverable:** A quantified, executable plan to hit 20B with clear pacing, budget/ROI guardrails, and risk controls.
+
+> **Assets layout (adjust if different):**
+> ```
+> assets/
+>   images/   # charts & figures (PNG)
+>   tables/   # CSVs for tables
+>   docs/     # narrative / flow analysis
+> ```
+
+---
+
+## Table of Contents
+1. [Executive Summary](#executive-summary)  
+2. [Data & Quality Assurance](#data--quality-assurance)  
+3. [EDA: What the Data Says](#eda-what-the-data-says)  
+4. [Baseline & Super-Event Modeling](#baseline--super-event-modeling)  
+5. [Channel Diagnosis (SCALE / FIX / PAUSE)](#channel-diagnosis-scale--fix--pause)  
+6. [Allocation Strategy — STRICT v3b (ROI-Gated)](#allocation-strategy--strict-v3b-roi-gated)  
+7. [Revenue Bridge to 20B](#revenue-bridge-to-20b)  
+8. [Weekly→Daily KPI & Pacing](#weeklydaily-kpi--pacing)  
+9. [Risk & Sensitivity](#risk--sensitivity)  
+10. [Experiments to Unlock FIX Uplift](#experiments-to-unlock-fix-uplift)  
+11. [Operating Rhythm & Governance](#operating-rhythm--governance)  
+12. [How to Reproduce](#how-to-reproduce)  
+13. [Suggested Repository Structure](#suggested-repository-structure)  
+14. [License & Notes](#license--notes)  
+15. [Appendix — Glossary](#appendix--glossary)
+
+---
+
+## Executive Summary
+
+**Revenue identity**
+
+\[
+\textbf{Revenue} = \text{Sessions} \times \text{Conversion Rate (CVR)} \times \text{Average Order Value (AOV)}
+\]
+
+**What we built**
+- A **clean 30-day baseline** on **Completed** revenue, **excluding** the super-event outlier in July.  
+- Quantified **uplift per super-event** and scenarioed the number of events needed.  
+- Diagnosed channels (SCALE / FIX / PAUSE) using statistical tests; computed **RPS = CVR × AOV** and gated PAID scaling by **ROI** (RPS/CPC ≥ 1.1).  
+- Constructed **traffic allocation (STRICT v3b)** with caps and **weekly→daily** pacing; included **risk & sensitivity**.
+
+**Key numbers (from the sample run)**
+- **Baseline (30d, Completed, excl. super-event)** ≈ **4.38B VND**  
+- **Uplift per super-event** ≈ **2.79B VND** ⇒ **3 events ≈ +8.36B VND**  
+- **Residual GAP pre-traffic** ≈ **7.26B VND**  
+- **Traffic plan (STRICT v3b)** ≈ **7.26B VND** ⇒ **Total ≈ 20B VND (GAP = 0)**
+
+**Bridge (slide-ready)**  
+![Revenue Bridge](assets/images/revenue_bridge_v3b.png)
+
+---
+
+## Data & Quality Assurance
+
+**Sources**
+- **OMS Orders**: order lines (status, payment method, shipping, original/selling price).  
+- **GA Traffic**: Source/Medium, Sessions, CVR, Revenue.
+
+**Critical QA actions**
+- **Removed GA `GRAND TOTAL`** (last row) to avoid double-counting.  
+- OMS–GA reconciliation (illustrative for this sample):
+  - GA **Gross Revenue (clean)** ≈ **10,006,473,136** VND  
+  - OMS **Completed product revenue** ≈ **8,072,083,720** VND  
+  - OMS **Cancelled product revenue** ≈ **1,993,771,450** VND  
+  - **Shipping fee** (all / completed): ≈ **690,804,572 / 508,978,481** VND
+
+Artifacts:
+- Channel CVR diagnosis (SCALE/FIX/PAUSE): [`assets/tables/channel_diagnosis_actions.csv`](assets/tables/channel_diagnosis_actions.csv)
+
+**Why it matters**  
+Grounding the plan in **clean gross numbers** (and understanding Completed vs Cancelled vs Shipping) ensures the **uplift and ROI math** are reliable.
+
+---
+
+## EDA: What the Data Says
+
+**Daily (Completed only)** — stable base with one sharp **super-event** spike.  
+![Daily Completed Revenue](assets/images/eda_daily_revenue.png)
+
+**By Day-of-Week (DOW)** — no material systematic DOW effect (non-significant Kruskal–Wallis p-values).  
+![Revenue by DOW](assets/images/eda_dow_revenue.png)
+
+**Super-event detection** — we **flag** the outlier (e.g., 12/07) and **exclude** it from baseline training.  
+![Super-Event Flag](assets/images/event_flagged_daily_revenue.png)
+
+> **Takeaway:** Demand is mostly trend-driven; **super-events move the needle**. Use events to lift volume, then layer traffic allocation to close the residual GAP.
+
+---
+
+## Baseline & Super-Event Modeling
+
+**Baseline**
+- Model: **Prophet** (trend + weak weekly seasonality) on **Completed** revenue, **excluding** the super-event day.  
+- Result (30d): **~4.38B VND**.
+
+![Prophet Forecast](assets/images/prophet_forecast_plot.png)
+
+**Super-event uplift**
+- Decomposed super-event into baseline vs event uplift.  
+- **Per-event uplift**: **~2.79B VND** (used for “Plan B = 3 events”).  
+- Scenarioing (0→6 events) confirms **3 events** balance **feasibility, cost, and risk**.
+
+**Why it matters**  
+This separation prevents baseline over-estimation and aligns **inventory, bids, CRM**, and **site readiness** with event days.
+
+---
+
+## Channel Diagnosis (SCALE / FIX / PAUSE)
+
+**Diagnostics**
+- **RPS (Revenue per Session proxy)** = `CVR × AOV_proxy` (from GA).  
+- **Z-test**: channel CVR vs rest (`proportions_ztest`), \(p<0.05\) ⇒ significant.  
+- **Labeling**
+  - **SCALE** — strong CVR (significant & ≥ median), strong RPS, low bounce  
+  - **FIX** — material volume but sub-par RPS/CVR → fix LP/creative/offer/checkout  
+  - **PAUSE** — long-tail or under-performing
+
+See: [`assets/tables/channel_diagnosis_actions.csv`](assets/tables/channel_diagnosis_actions.csv)
+
+**Why it matters**  
+Turns a long GA list into an **actionable short-list** with **statistical backing**.
+
+---
+
+## Allocation Strategy — STRICT v3b (ROI-Gated)
+
+**Principles**
+1. **Priority**: `SCALE (1) → FIX (2)` → then **PAID ROI-pass (2.5)** if **RPS/CPC ≥ 1.1** (even if labeled PAUSE).  
+2. **Caps**:  
+   - **OWNED**: tight **≤ +50k incremental sessions (total add)**  
+   - **PAID**: **≤ +3× additional sessions** (total ≤ 4× current)  
+3. **FIX uplift pre-allocation**: apply **CVR +10%** & **AOV +3%** to FIX channels (quick-win experiments to be validated).
+
+**Outputs**
+- Master allocation — [`assets/tables/strict_v3b_master_allocation.csv`](assets/tables/strict_v3b_master_allocation.csv)  
+- Summary by type — [`assets/tables/strict_v3b_alloc_summary.csv`](assets/tables/strict_v3b_alloc_summary.csv)  
+- Budget estimate (CPC heuristics: Search≈1400, Social≈900, Video≈800 VND) — [`assets/tables/budget_v3b.csv`](assets/tables/budget_v3b.csv)
+
+**Why it matters**  
+The **ROI gate** avoids budget leakage while still **unlocking high-ROI PAID** (e.g., Google/YouTube) that may be mislabeled historically.
+
+---
+
+## Revenue Bridge to 20B
+
+**30-day bridge**
+- **Baseline**: ~**4.38B**  
+- **+3 Super-events**: ~**+8.36B**  
+- **+Traffic plan (STRICT v3b)**: ~**+7.26B**  
+= **~20B (GAP = 0)**
+
+![Bridge](assets/images/revenue_bridge_v3b.png)  
+Data: [`assets/tables/revenue_bridge_v3b.csv`](assets/tables/revenue_bridge_v3b.csv)
+
+**Why it matters**  
+This is the **board-level story**: how we get from 10B → 20B with quantified levers and controllable execution.
+
+---
+
+## Weekly→Daily KPI & Pacing
+
+**Weekly split** (aligned to event cadence/paydays): **W1 30% – W2 0% – W3 30% – W4 40%**.
+
+**Daily distribution**  
+Within each week, distribute by **DOW weights** learned from July (**excluding** the super-event).
+
+Artifacts:
+- Weekly KPI — [`assets/tables/weekly_kpi_v3b.csv`](assets/tables/weekly_kpi_v3b.csv)  
+- Day-level KPI — [`assets/tables/day_level_kpi_v3b.csv`](assets/tables/day_level_kpi_v3b.csv)
+
+**Planned daily added revenue (visual):**  
+![Daily Planned Revenue](assets/images/daily_planned_revenue_v3b.png)
+
+**Why it matters**  
+Pacing enables **nowcasting** (Actual vs Target) and **early reallocations** when signals drift, avoiding end-of-month panic.
+
+---
+
+## Risk & Sensitivity
+
+**Example downside**: **PAID CVR −10%**  
+- Recompute traffic add & plan total.  
+- If a GAP reappears, **reallocate** to highest-ROI channels (Google / cpc, youtube.com / referral), trigger **CRM pushes**, and **AOV/CVR** uplifts (bundle/threshold, LP speed/trust).
+
+(If exported): [`assets/tables/sensitivity_v3b.csv`](assets/tables/sensitivity_v3b.csv)
+
+**Why it matters**  
+Guardrails keep 20B **achievable** even under plausible negative shocks.
+
+---
+
+## Experiments to Unlock FIX Uplift
+
+**Targets**: LP speed/trust, DPA/Shopping creatives, checkout friction, bundles/free-ship thresholds.
+
+**CVR A/B (two-proportion test)** — required sample per arm (approx.):
+\[
+n \approx \frac{2\,(Z_{\alpha/2}+Z_{\beta})^2\,\bar{p}(1-\bar{p})}{\Delta^2}
+\]
+where \(\bar{p}\) = baseline CVR, \(\Delta\) = absolute lift (e.g., +10% relative ⇒ \(0.1 \cdot \bar{p}\)).
+
+**AOV test**  
+Use **Mann–Whitney** or **bootstrap** (AOV is skewed). Track **median** and **upper quantiles**, not just mean.
+
+**Why it matters**  
+Turns FIX from assumption into **measured uplift**, improving allocation accuracy over time.
+
+---
+
+## Operating Rhythm & Governance
+
+- **Daily (AM)**: Nowcast vs daily KPI (Sessions, CVR, AOV, RPS, Revenue). If off by >±5–10%, **reallocate** within ROI gates; verify stock & LP/checkout SLA.  
+- **Weekly (1-pager)**: Revenue bridge position, top channels, test status, risks & next-week actions.  
+- **Event days**: inventory assurance, bid/creative ramps, LP/checkout readiness; post-event re-marketing.
+
+Artifacts (optional):
+- Flow analysis narrative — [`assets/docs/flow_analysis.md`](assets/docs/flow_analysis.md)  
+- Key metrics roll-up — [`assets/tables/key_metrics_summary.csv`](assets/tables/key_metrics_summary.csv)  
+- Top channels — [`assets/tables/top_channels_by_rev_add.csv`](assets/tables/top_channels_by_rev_add.csv)
+
+
+## Suggested Repository Structure
+
