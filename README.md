@@ -6,7 +6,7 @@
 
 > **Assets layout (adjust if different):**
 > ```
-> assets/
+> assets2/
 >   images/   # charts & figures (PNG)
 >   tables/   # CSVs for tables
 >   docs/     # narrative / flow analysis
@@ -49,7 +49,7 @@ Revenue = Sessions × Conversion Rate (CVR) × Average Order Value (AOV)
 - **Traffic plan (STRICT v3b)** ≈ **7.26B VND** ⇒ **Total ≈ 20B VND (GAP = 0)**
 
 **Bridge (slide-ready)**  
-![Revenue Bridge](assets/images/revenue_bridge_v3b.png)
+![Revenue Bridge](assets2/images/revenue_bridge_v3b.png)
 
 ---
 
@@ -68,7 +68,7 @@ Revenue = Sessions × Conversion Rate (CVR) × Average Order Value (AOV)
   - **Shipping fee** (all / completed): ≈ **690,804,572 / 508,978,481** VND
 
 Artifacts:
-- Channel CVR diagnosis (SCALE/FIX/PAUSE): [`assets/tables/channel_diagnosis_actions.csv`](assets/tables/channel_diagnosis_actions.csv)
+- Channel CVR diagnosis (SCALE/FIX/PAUSE): [`assets2/tables/channel_diagnosis_actions.csv`](assets2/tables/channel_diagnosis_actions.csv)
 
 **Why it matters**  
 Grounding the plan in **clean gross numbers** (and understanding Completed vs Cancelled vs Shipping) ensures the **uplift and ROI math** are reliable.
@@ -78,13 +78,13 @@ Grounding the plan in **clean gross numbers** (and understanding Completed vs Ca
 ## EDA: What the Data Says
 
 **Daily (Completed only)** — stable base with one sharp **super-event** spike.  
-![Daily Completed Revenue](assets/images/eda_daily_revenue.png)
+![Daily Completed Revenue](assets2/images/eda_daily_revenue.png)
 
 **By Day-of-Week (DOW)** — no material systematic DOW effect (non-significant Kruskal–Wallis p-values).  
-![Revenue by DOW](assets/images/eda_dow_revenue.png)
+![Revenue by DOW](assets2/images/eda_dow_revenue.png)
 
 **Super-event detection** — we **flag** the outlier (e.g., 12/07) and **exclude** it from baseline training.  
-![Super-Event Flag](assets/images/event_flagged_daily_revenue.png)
+![Super-Event Flag](assets2/images/event_flagged_daily_revenue.png)
 
 > **Takeaway:** Demand is mostly trend-driven; **super-events move the needle**. Use events to lift volume, then layer traffic allocation to close the residual GAP.
 
@@ -96,7 +96,7 @@ Grounding the plan in **clean gross numbers** (and understanding Completed vs Ca
 - Model: **Prophet** (trend + weak weekly seasonality) on **Completed** revenue, **excluding** the super-event day.  
 - Result (30d): **~4.38B VND**.
 
-![Prophet Forecast](assets/images/prophet_forecast_plot.png)
+![Prophet Forecast](assets2/images/prophet_forecast_plot.png)
 
 **Super-event uplift**
 - Decomposed super-event into baseline vs event uplift.  
@@ -118,7 +118,7 @@ This separation prevents baseline over-estimation and aligns **inventory, bids, 
   - **FIX** — material volume but sub-par RPS/CVR → fix LP/creative/offer/checkout  
   - **PAUSE** — long-tail or under-performing
 
-See: [`assets/tables/channel_diagnosis_actions.csv`](assets/tables/channel_diagnosis_actions.csv)
+See: [`assets2/tables/channel_diagnosis_actions.csv`](assets2/tables/channel_diagnosis_actions.csv)
 
 **Why it matters**  
 Turns a long GA list into an **actionable short-list** with **statistical backing**.
@@ -135,9 +135,9 @@ Turns a long GA list into an **actionable short-list** with **statistical backin
 3. **FIX uplift pre-allocation**: apply **CVR +10%** & **AOV +3%** to FIX channels (quick-win experiments to be validated).
 
 **Outputs**
-- Master allocation — [`assets/tables/strict_v3b_master_allocation.csv`](assets/tables/strict_v3b_master_allocation.csv)  
-- Summary by type — [`assets/tables/strict_v3b_alloc_summary.csv`](assets/tables/strict_v3b_alloc_summary.csv)  
-- Budget estimate (CPC heuristics: Search≈1400, Social≈900, Video≈800 VND) — [`assets/tables/budget_v3b.csv`](assets/tables/budget_v3b.csv)
+- Master allocation — [`assets2/tables/strict_v3b_master_allocation.csv`](assets2/tables/strict_v3b_master_allocation.csv)  
+- Summary by type — [`assets2/tables/strict_v3b_alloc_summary.csv`](assets2/tables/strict_v3b_alloc_summary.csv)  
+- Budget estimate (CPC heuristics: Search≈1400, Social≈900, Video≈800 VND) — [`assets2/tables/budget_v3b.csv`](assets2/tables/budget_v3b.csv)
 
 **Why it matters**  
 The **ROI gate** avoids budget leakage while still **unlocking high-ROI PAID** (e.g., Google/YouTube) that may be mislabeled historically.
@@ -152,8 +152,8 @@ The **ROI gate** avoids budget leakage while still **unlocking high-ROI PAID** (
 - **+Traffic plan (STRICT v3b)**: ~**+7.26B**  
 = **~20B (GAP = 0)**
 
-![Bridge](assets/images/revenue_bridge_v3b.png)  
-Data: [`assets/tables/revenue_bridge_v3b.csv`](assets/tables/revenue_bridge_v3b.csv)
+![Bridge](assets2/images/revenue_bridge_v3b.png)  
+Data: [`assets2/tables/revenue_bridge_v3b.csv`](assets2/tables/revenue_bridge_v3b.csv)
 
 **Why it matters**  
 This is the **board-level story**: how we get from 10B → 20B with quantified levers and controllable execution.
@@ -168,11 +168,11 @@ This is the **board-level story**: how we get from 10B → 20B with quantified l
 Within each week, distribute by **DOW weights** learned from July (**excluding** the super-event).
 
 Artifacts:
-- Weekly KPI — [`assets/tables/weekly_kpi_v3b.csv`](assets/tables/weekly_kpi_v3b.csv)  
-- Day-level KPI — [`assets/tables/day_level_kpi_v3b.csv`](assets/tables/day_level_kpi_v3b.csv)
+- Weekly KPI — [`assets2/tables/weekly_kpi_v3b.csv`](assets2/tables/weekly_kpi_v3b.csv)  
+- Day-level KPI — [`assets2/tables/day_level_kpi_v3b.csv`](assets2/tables/day_level_kpi_v3b.csv)
 
 **Planned daily added revenue (visual):**  
-![Daily Planned Revenue](assets/images/daily_planned_revenue_v3b.png)
+![Daily Planned Revenue](assets2/images/daily_planned_revenue_v3b.png)
 
 **Why it matters**  
 Pacing enables **nowcasting** (Actual vs Target) and **early reallocations** when signals drift, avoiding end-of-month panic.
