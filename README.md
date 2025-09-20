@@ -1,4 +1,4 @@
-# Doubling to 20B VND — E-commerce Growth Plan  
+# Doubling to 20B VND - E-commerce Growth Plan  
 **Plan B: 3 Super-Events + ROI-Gated Traffic Allocation (STRICT v3b)**
 
 > **Objective:** Seller A achieved ~10B VND **gross** in July. **August KPI = 20B VND**.  
