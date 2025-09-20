@@ -22,10 +22,6 @@
 5. [Channel Diagnosis (SCALE / FIX / PAUSE)](#channel-diagnosis-scale--fix--pause)  
 6. [Allocation Strategy — STRICT v3b (ROI-Gated)](#allocation-strategy--strict-v3b-roi-gated)  
 7. [Revenue Bridge to 20B](#revenue-bridge-to-20b)  
-8. [Weekly→Daily KPI & Pacing](#weeklydaily-kpi--pacing)  
-9. [Risk & Sensitivity](#risk--sensitivity)  
-10. [Experiments to Unlock FIX Uplift](#experiments-to-unlock-fix-uplift)  
-11. [Operating Rhythm & Governance](#operating-rhythm--governance)  
 
 ---
 
@@ -158,21 +154,3 @@ Data: [`assets2/tables/revenue_bridge_v3b.csv`](assets2/tables/revenue_bridge_v3
 **Why it matters**  
 This is the **board-level story**: how we get from 10B → 20B with quantified levers and controllable execution.
 
----
-
-## Weekly→Daily KPI & Pacing
-
-**Weekly split** (aligned to event cadence/paydays): **W1 30% – W2 0% – W3 30% – W4 40%**.
-
-**Daily distribution**  
-Within each week, distribute by **DOW weights** learned from July (**excluding** the super-event).
-
-Artifacts:
-- Weekly KPI — [`assets2/tables/weekly_kpi_v3b.csv`](assets2/tables/weekly_kpi_v3b.csv)  
-- Day-level KPI — [`assets2/tables/day_level_kpi_v3b.csv`](assets2/tables/day_level_kpi_v3b.csv)
-
-**Planned daily added revenue (visual):**  
-![Daily Planned Revenue](assets2/images/daily_planned_revenue_v3b.png)
-
-**Why it matters**  
-Pacing enables **nowcasting** (Actual vs Target) and **early reallocations** when signals drift, avoiding end-of-month panic.
