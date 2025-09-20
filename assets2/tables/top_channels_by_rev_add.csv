@@ -1,0 +1,6 @@
+source_medium,channel_type,action,sessions_add_allocated,revenue_add_allocated,effective_rps
+google / cpc,PAID,PAUSE,583494,5370221960.632719,9203.559866310055
+youtube.com / referral,PAID,PAUSE,127392,1207625744.4604955,9479.604248779322
+l.facebook.com / referral,PAID,SCALE,21432,452404926.3879412,21108.85248170685
+(direct) / (none),OWNED,SCALE,21707,208172207.39003795,9590.095701388398
+newsletter / email,OWNED,SCALE,434,19800408.107781395,45623.06015617833
