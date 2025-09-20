@@ -4,13 +4,13 @@
 > **Objective:** Seller A achieved ~10B VND **gross** in July. **August KPI = 20B VND**.  
 > **Deliverable:** A quantified, executable plan to hit 20B with clear pacing, budget/ROI guardrails, and risk controls.
 
-> **Assets layout (adjust if different):**
-> ```
-> assets2/
->   images/   # charts & figures (PNG)
->   tables/   # CSVs for tables
->   docs/     # narrative / flow analysis
-> ```
+## Run This Project in Google Colab
+
+Open the end-to-end notebook (QA → EDA → Baseline & Super-Events → Channel Diagnosis → STRICT v3b Allocation → KPI/Pacing) directly in Colab:
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1vNWu3S9tmbS2hdhmxQu1IUqg7hGYDQXr?usp=sharing)
+
+**Direct link:** https://colab.research.google.com/drive/1vNWu3S9tmbS2hdhmxQu1IUqg7hGYDQXr?usp=sharing
 
 ---
 
